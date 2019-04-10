@@ -2,6 +2,8 @@ package br.com.verdevida.social.app.entity;
 
 import br.com.verdevida.social.app.pattern.repository.AbstractEntity;
 
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,9 @@ public class StudentEntity extends AbstractEntity {
     private Long id;
 
     private String name;
+    
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<StudentDocumentEntity> documents;
 
     @Override
     public Long getId() {
@@ -31,7 +36,15 @@ public class StudentEntity extends AbstractEntity {
         this.name = nome;
     }
 
-    @Override
+    public Set<StudentDocumentEntity> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(Set<StudentDocumentEntity> documents) {
+		this.documents = documents;
+	}
+
+	@Override
     public String toString() {
         return "StudentEntity{" +
                 "id=" + id +

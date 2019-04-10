@@ -1,20 +1,19 @@
 package br.com.verdevida.social.app.service.impl;
 
-import br.com.verdevida.social.app.entity.StudentEntity;
-import br.com.verdevida.social.app.exception.BusinessLogicException;
-import br.com.verdevida.social.app.pattern.processor.IProcessor;
-import br.com.verdevida.social.app.processor.ProcessorAddDocumentoToStudent;
-import br.com.verdevida.social.app.processor.dto.AddDocumentToStudent;
-import br.com.verdevida.social.app.repository.IStudentRepository;
-import br.com.verdevida.social.app.service.IStudentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Spliterator;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import br.com.verdevida.social.app.entity.StudentEntity;
+import br.com.verdevida.social.app.exception.BusinessLogicException;
+import br.com.verdevida.social.app.processor.ProcessorAddDocumentToStudent;
+import br.com.verdevida.social.app.processor.dto.AddDocumentToStudent;
+import br.com.verdevida.social.app.repository.IStudentRepository;
+import br.com.verdevida.social.app.service.IStudentService;
 
 @Service
 public class StudentServiceImpl implements IStudentService {
@@ -23,7 +22,7 @@ public class StudentServiceImpl implements IStudentService {
     private IStudentRepository studentRepository;
 
     @Autowired
-    private ProcessorAddDocumentoToStudent processorAddDocumentoToStudent;
+    private ProcessorAddDocumentToStudent processorAddDocumentoToStudent;
 
     @Override
     public StudentEntity find(Long id) throws BusinessLogicException {

@@ -1,6 +1,8 @@
 package br.com.verdevida.social.app.rest.dto;
 
-public class StudentDTO {
+import br.com.verdevida.social.app.pattern.rest.AbstractRestDTO;
+
+public class StudentDTO extends AbstractRestDTO{
 
     private Long id;
 

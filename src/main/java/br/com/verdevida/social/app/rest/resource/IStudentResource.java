@@ -1,10 +1,11 @@
 package br.com.verdevida.social.app.rest.resource;
 
-import br.com.verdevida.social.app.entity.StudentEntity;
-import br.com.verdevida.social.app.rest.dto.StudentDTO;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
+import br.com.verdevida.social.app.rest.dto.StudentDTO;
+import br.com.verdevida.social.app.rest.dto.StudentDocumentDTO;
 
 public interface IStudentResource {
 
@@ -12,6 +13,6 @@ public interface IStudentResource {
 
     List<StudentDTO> listAll() throws Exception;
 
-    void addDocumentsToStudent() throws Exception;
+    List<StudentDocumentDTO> addDocumentsToStudent(Long idStudent, List<StudentDocumentDTO> documents) throws Exception;
 
 }

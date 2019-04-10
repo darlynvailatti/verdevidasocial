@@ -1,7 +1,7 @@
 package br.com.verdevida.social.app.processor.dto;
 
 import br.com.verdevida.social.app.VerdeVidaContext;
-import br.com.verdevida.social.app.entity.StudentDocument;
+import br.com.verdevida.social.app.entity.StudentDocumentEntity;
 import br.com.verdevida.social.app.entity.StudentEntity;
 import br.com.verdevida.social.app.pattern.processor.AbstractProcessorDTO;
 
@@ -13,9 +13,9 @@ public class AddDocumentToStudent extends AbstractProcessorDTO {
 
     private StudentEntity student;
 
-    private List<StudentDocument> documents;
+    private List<StudentDocumentEntity> documents;
 
-    public AddDocumentToStudent(VerdeVidaContext context, StudentEntity student, List<StudentDocument> documents) {
+    public AddDocumentToStudent(VerdeVidaContext context, StudentEntity student, List<StudentDocumentEntity> documents) {
         this.context = context;
         this.student = student;
         this.documents = documents;
@@ -37,28 +37,28 @@ public class AddDocumentToStudent extends AbstractProcessorDTO {
         this.student = student;
     }
 
-    public List<StudentDocument> getDocuments() {
+    public List<StudentDocumentEntity> getDocuments() {
         return documents;
     }
 
-    public void setDocuments(List<StudentDocument> documents) {
+    public void setDocuments(List<StudentDocumentEntity> documents) {
         this.documents = documents;
     }
 
 
     public static class Return extends AbstractProcessorDTO {
 
-        private List<StudentDocument> documents;
+        private List<StudentDocumentEntity> documents;
 
-        public Return(List<StudentDocument> documents) {
+        public Return(List<StudentDocumentEntity> documents) {
             this.documents = documents;
         }
 
-        public List<StudentDocument> getDocuments() {
+        public List<StudentDocumentEntity> getDocuments() {
             return documents;
         }
 
-        public void setDocuments(List<StudentDocument> documents) {
+        public void setDocuments(List<StudentDocumentEntity> documents) {
             this.documents = documents;
         }
     }
