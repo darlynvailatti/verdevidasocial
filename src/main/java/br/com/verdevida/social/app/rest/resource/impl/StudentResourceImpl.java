@@ -3,8 +3,6 @@ package br.com.verdevida.social.app.rest.resource.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.verdevida.social.app.VerdeVidaApi;
 import br.com.verdevida.social.app.entity.StudentDocumentEntity;
 import br.com.verdevida.social.app.entity.StudentEntity;
 import br.com.verdevida.social.app.exception.BusinessLogicException;
@@ -32,7 +29,7 @@ import br.com.verdevida.social.app.rest.resource.IStudentResource;
 import br.com.verdevida.social.app.service.IStudentService;
 
 @RestController
-@RequestMapping(VerdeVidaApi.contextPath + "/students")
+@RequestMapping("/students")
 public class StudentResourceImpl extends AbstractRestResource
 	implements IStudentResource {
 
@@ -51,7 +48,6 @@ public class StudentResourceImpl extends AbstractRestResource
     @PostMapping
     public ResponseEntity<StudentDTO> confirm(@RequestBody StudentDTO studentDTO) throws Exception{
         StudentEntity entity = restConverterStudent.convertToEntity(studentDTO);
-        log.info("Entity: {}", entity);
         StudentEntity createdStudent = studentService.confirm(entity);
         studentDTO = restConverterStudent.convertToDTO(createdStudent);
         return new ResponseEntity<>(studentDTO, HttpStatus.CREATED);
@@ -72,7 +68,6 @@ public class StudentResourceImpl extends AbstractRestResource
         }
         return studentsDTO;
     }
-
     
     @GetMapping("{idStudent}")
     public ResponseEntity<StudentDTO> get(@PathVariable("idStudent") Long idStudent) throws Exception {

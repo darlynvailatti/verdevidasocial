@@ -1,24 +1,25 @@
 package br.com.verdevida.social.app.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 import br.com.verdevida.social.app.pattern.repository.AbstractEntity;
 
-import java.util.Set;
-
-import javax.persistence.*;
-
 @Entity
-@Table
+@Table(name = "student")
 public class StudentEntity extends AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy =  GenerationType.AUTO)
+    @SequenceGenerator(name = "student_seq_gen", sequenceName = "student_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="student_seq_gen")
     private Long id;
 
     private String name;
     
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<StudentDocumentEntity> documents;
-
     @Override
     public Long getId() {
         return this.id;
@@ -35,14 +36,6 @@ public class StudentEntity extends AbstractEntity {
     public void setName(String nome) {
         this.name = nome;
     }
-
-    public Set<StudentDocumentEntity> getDocuments() {
-		return documents;
-	}
-
-	public void setDocuments(Set<StudentDocumentEntity> documents) {
-		this.documents = documents;
-	}
 
 	@Override
     public String toString() {
