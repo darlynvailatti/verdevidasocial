@@ -3,22 +3,18 @@ package br.com.verdevida.social.app.rest.resource.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
+import br.com.verdevida.social.app.rest.converter.RestConverterPageRequest;
+import br.com.verdevida.social.app.rest.dto.PageDTO;
+import br.com.verdevida.social.app.rest.dto.PageRequestDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import br.com.verdevida.social.app.VerdeVidaApi;
 import br.com.verdevida.social.app.entity.StudentDocumentEntity;
 import br.com.verdevida.social.app.entity.StudentEntity;
 import br.com.verdevida.social.app.exception.BusinessLogicException;
@@ -32,7 +28,7 @@ import br.com.verdevida.social.app.rest.resource.IStudentResource;
 import br.com.verdevida.social.app.service.IStudentService;
 
 @RestController
-@RequestMapping(VerdeVidaApi.contextPath + "/students")
+@RequestMapping("/students")
 public class StudentResourceImpl extends AbstractRestResource
 	implements IStudentResource {
 
@@ -43,6 +39,9 @@ public class StudentResourceImpl extends AbstractRestResource
     
     @Autowired
     private RestConverterStudent restConverterStudent;
+
+    @Autowired
+    private RestConverterPageRequest restConverterPageRequest;
     
     @Autowired
     private RestConverterStudentDocument restConverterStudentDocument;
@@ -51,10 +50,40 @@ public class StudentResourceImpl extends AbstractRestResource
     @PostMapping
     public ResponseEntity<StudentDTO> confirm(@RequestBody StudentDTO studentDTO) throws Exception{
         StudentEntity entity = restConverterStudent.convertToEntity(studentDTO);
-        log.info("Entity: {}", entity);
         StudentEntity createdStudent = studentService.confirm(entity);
         studentDTO = restConverterStudent.convertToDTO(createdStudent);
         return new ResponseEntity<>(studentDTO, HttpStatus.CREATED);
+    }
+
+    @Override
+    @PostMapping("all/by/pagination")
+    public @ResponseBody PageDTO<StudentDTO> listAllWithPagination(@RequestBody PageRequestDTO pageRequestDTO) throws Exception{
+        PageRequest pageRequest = restConverterPageRequest.convertToEntity(pageRequestDTO);
+        Page<StudentEntity> page = studentService.listWithPagination(pageRequest);
+        List<StudentDTO> studentsDTO = new ArrayList<>();
+
+        for (StudentEntity studentEntity : page.getContent()) {
+            StudentDTO studentDTO = restConverterStudent.convertToDTO(studentEntity);
+            studentsDTO.add(studentDTO);
+        }
+
+        return new PageDTO<>(page.getTotalElements(), studentsDTO);
+    }
+
+    @Override
+    @PostMapping("/by/name/pagination")
+    public @ResponseBody PageDTO<StudentDTO> listAllByNameContainingWithPagination(@RequestParam String name, @RequestBody PageRequestDTO pageRequestDTO) throws Exception{
+        System.out.println("Name search for:" + name);
+        PageRequest pageRequest = restConverterPageRequest.convertToEntity(pageRequestDTO);
+        Page<StudentEntity> page = studentService.listByNameContainingWithPagination(name,pageRequest);
+        List<StudentDTO> studentsDTO = new ArrayList<>();
+
+        for (StudentEntity studentEntity : page.getContent()) {
+            StudentDTO studentDTO = restConverterStudent.convertToDTO(studentEntity);
+            studentsDTO.add(studentDTO);
+        }
+
+        return new PageDTO<>(page.getTotalElements(), studentsDTO);
     }
 
     @Override
@@ -72,7 +101,6 @@ public class StudentResourceImpl extends AbstractRestResource
         }
         return studentsDTO;
     }
-
     
     @GetMapping("{idStudent}")
     public ResponseEntity<StudentDTO> get(@PathVariable("idStudent") Long idStudent) throws Exception {

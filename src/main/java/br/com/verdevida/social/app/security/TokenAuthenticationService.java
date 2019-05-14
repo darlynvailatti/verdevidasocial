@@ -33,7 +33,7 @@ public class TokenAuthenticationService {
     	String authenticationName = authentication.getName();
     	
     	Map<String,Object> payLoad = new HashMap<>();
-    	payLoad.put("login", authenticationName);
+    	payLoad.put("username", authenticationName);
     	payLoad.put("sub", authenticationName);
     	
         String JWT = Jwts.builder()
@@ -54,13 +54,13 @@ public class TokenAuthenticationService {
 
     public static Authentication getByToken(String token) {
     	String formatedToken = token.replace(TOKEN_PREFIX, "").trim();
-    	log.info("getByToken: {}", formatedToken);
+//    	log.info("getByToken: {}", formatedToken);
         String user = Jwts.parser()
                 .setSigningKey(SECRET)
                 .parseClaimsJws(formatedToken)
                 .getBody()
                 .getSubject();
-        log.info("body: {}", user);
+//        log.info("body: {}", user);
         return user != null ? new UsernamePasswordAuthenticationToken(user, null, null) : null;
     }
     
@@ -70,7 +70,7 @@ public class TokenAuthenticationService {
 	                .setSigningKey(SECRET)
 	                .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
 	                .getBody();
-	    	String login = (String) body.get("login");
+	    	String login = (String) body.get("username");
 	    	return new VerdeVidaContext(login);
     	}
     	return null;

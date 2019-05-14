@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Spliterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +31,13 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public List<StudentEntity> listWithPagination(Pageable pagination) throws BusinessLogicException {
-        return null;
+    public Page<StudentEntity> listWithPagination(Pageable pagination) throws BusinessLogicException {
+        return studentRepository.findAll(pagination);
+    }
+
+    @Override
+    public Page<StudentEntity> listByNameContainingWithPagination(String name, Pageable pagination) throws BusinessLogicException {
+        return studentRepository.findByNameContainingIgnoreCase(name, pagination);
     }
 
     @Override

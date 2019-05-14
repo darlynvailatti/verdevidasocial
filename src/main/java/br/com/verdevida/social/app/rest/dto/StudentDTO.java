@@ -2,18 +2,19 @@ package br.com.verdevida.social.app.rest.dto;
 
 import br.com.verdevida.social.app.pattern.rest.AbstractRestDTO;
 
+import java.time.LocalDate;
+
 public class StudentDTO extends AbstractRestDTO{
 
     private Long id;
 
     private String name;
 
-    public StudentDTO() {
-    }
+    private LocalDate birthDate;
 
-    public StudentDTO(Long id, String name) {
-        this.id = id;
-        this.name = name;
+    private LocalDate registerDate;
+
+    public StudentDTO() {
     }
 
     public Long getId() {
@@ -30,5 +31,21 @@ public class StudentDTO extends AbstractRestDTO{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public LocalDate getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(LocalDate registerDate) {
+        this.registerDate = registerDate;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 }

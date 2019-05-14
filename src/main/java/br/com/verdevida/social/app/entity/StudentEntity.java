@@ -1,24 +1,31 @@
 package br.com.verdevida.social.app.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 import br.com.verdevida.social.app.pattern.repository.AbstractEntity;
 
-import java.util.Set;
-
-import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
-@Table
+@Table(name = "student")
 public class StudentEntity extends AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy =  GenerationType.AUTO)
+    @SequenceGenerator(name = "student_seq_gen", sequenceName = "student_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="student_seq_gen")
     private Long id;
 
     private String name;
-    
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<StudentDocumentEntity> documents;
 
+    private LocalDate birthDate;
+
+    private LocalDate registerDate;
+    
     @Override
     public Long getId() {
         return this.id;
@@ -36,15 +43,23 @@ public class StudentEntity extends AbstractEntity {
         this.name = nome;
     }
 
-    public Set<StudentDocumentEntity> getDocuments() {
-		return documents;
-	}
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
 
-	public void setDocuments(Set<StudentDocumentEntity> documents) {
-		this.documents = documents;
-	}
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
 
-	@Override
+    public LocalDate getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(LocalDate registerDate) {
+        this.registerDate = registerDate;
+    }
+
+    @Override
     public String toString() {
         return "StudentEntity{" +
                 "id=" + id +
