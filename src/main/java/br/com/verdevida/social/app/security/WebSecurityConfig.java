@@ -54,16 +54,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		httpSecurity.csrf().disable().authorizeRequests()
 			.antMatchers(HttpMethod.GET,"/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
-			.antMatchers(HttpMethod.GET, "*").permitAll();
-//			.antMatchers(HttpMethod.POST, authenticationPath).permitAll()
-//			.anyRequest().authenticated()
-//			.and()
-//
-//			// filtra requisições de login
-//			.addFilterBefore(jwtLoginFilter, UsernamePasswordAuthenticationFilter.class)
-//
-//			// filtra outras requisições para verificar a presença do JWT no header
-//			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+			.antMatchers(HttpMethod.POST, authenticationPath).permitAll()
+			.anyRequest().authenticated()
+			.and()
+
+			// filtra requisições de login
+			.addFilterBefore(jwtLoginFilter, UsernamePasswordAuthenticationFilter.class)
+
+			// filtra outras requisições para verificar a presença do JWT no header
+			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Override
